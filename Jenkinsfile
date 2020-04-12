@@ -5,13 +5,19 @@ pipeline{
    def tomcatStatus = ''*/
    stages{
    stage('SCM Checkout'){
+      steps {
      git 'https://github.com/Coderve/JenkinsWar.git'
+   }
    }
    stage('Compile-Package-create-war-file'){
       // Get maven home path
+      steps{
       def mvnHome =  tool name: 'Maven_Path', type: 'maven'   
-      bat "${mvnHome}/bin/mvn package"
       }
+      steps{
+         bat "${mvnHome}/bin/mvn package"
+      }
+   }
 /*   stage ('Stop Tomcat Server') {
                bat ''' @ECHO OFF
                wmic process list brief | find /i "tomcat" > NUL
