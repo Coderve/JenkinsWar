@@ -3,6 +3,7 @@ pipeline{
    /*def tomcatWeb = 'D:\\Auto_deployment\\apache-tomcat-9.0.30\\apache-tomcat-9.0.30\\webapps'
    def tomcatBin = 'D:\\Auto_deployment\\apache-tomcat-9.0.30\\apache-tomcat-9.0.30\\bin'
    def tomcatStatus = ''*/
+   stages{
    stage('SCM Checkout'){
      git 'https://github.com/Coderve/JenkinsWar.git'
    }
@@ -26,4 +27,5 @@ pipeline{
    /*stage('Deploy to Tomcat'){
      bat "copy target\\JenkinsWar.war \"${tomcatWeb}\\JenkinsWar.war\""
    }*/
+}
 }
