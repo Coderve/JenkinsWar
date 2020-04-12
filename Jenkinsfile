@@ -12,10 +12,8 @@ pipeline{
    stage('Compile-Package-create-war-file'){
       // Get maven home path
       steps{
-      def mvnHome =  tool name: 'Maven_Path', type: 'maven'   
-      }
-      steps{
-         bat "${mvnHome}/bin/mvn package"
+      def mvnHome =  tool name: 'Maven_Path', type: 'maven'
+      bat "${mvnHome}/bin/mvn package"
       }
    }
 /*   stage ('Stop Tomcat Server') {
