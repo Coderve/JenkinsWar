@@ -1,33 +1,17 @@
-node{
-
-   def tomcatWeb = 'D:\\Auto_deployment\\apache-tomcat-9.0.30\\apache-tomcat-9.0.30\\webapps'
-   def tomcatBin = 'D:\\Auto_deployment\\apache-tomcat-9.0.30\\apache-tomcat-9.0.30\\bin'
-   def tomcatStatus = ''
-   stage('SCM Checkout'){
-     git 'https://github.com/Coderve/JenkinsWar.git'
-   }
-   stage('Compile-Package-create-war-file'){
-      // Get maven home path
-     sh 'mvn clean install -Dmaven.test.skip=true'
+pipeline {
+           agent any
+           stages {
+                stage("git-clone") {
+                     steps {
+                          git branch: 'master', credentialsId: 'test', url: 'https://github.com/Coderve/JenkinsWar.git' 
+                     }
+                }
+   		stage("Build")
+		{
+		steps {
+                          
+				bat 'mvn clean install -Dmaven.test.skip=true'
+		}
+              }
+           }
       }
-/*   stage ('Stop Tomcat Server') {
-               bat ''' @ECHO OFF
-               wmic process list brief | find /i "tomcat" > NUL
-               IF ERRORLEVEL 1 (
-                    echo  Stopped
-               ) ELSE (
-               echo running
-                  "${tomcatBin}\\shutdown.bat"
-                  sleep(time:10,unit:"SECONDS") 
-               )
-'''
-   }*/
-   stage('Deploy to Tomcat'){
-     bat "copy target\\JenkinsWar.war \"${tomcatWeb}\\JenkinsWar.war\""
-   }
-      stage ('Start Tomcat Server') {
-         sleep(time:5,unit:"SECONDS") 
-         bat "${tomcatBin}\\startup.bat"
-         sleep(time:100,unit:"SECONDS")
-   }
-}
